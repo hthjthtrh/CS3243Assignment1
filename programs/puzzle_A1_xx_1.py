@@ -37,7 +37,6 @@ class Puzzle(object):
             currentPathCost = nodeToExplore.pathCost
             currentPath = nodeToExplore.path
             
-            # print(nodeToExplore.f, currentState, currentPath, currentPathCost)
             exploredStates.add(currentState)
 
             # goal test
@@ -62,7 +61,7 @@ class Puzzle(object):
         else:
             return ['UNSOLVABLE']
 
-    # return a list of possible actions
+    # return a list of possible actions from given state
     def validActions(self, state):
         validActions = []
         emptySpaceCoord = self.positionToCoord(state.find('0'))
@@ -81,7 +80,7 @@ class Puzzle(object):
             validActions.append('LEFT')
         return validActions
 
-    # return the new state after action is tation
+    # return the new state after action is taken on given state
     def stateTransition(self, state, action):
         # locate the 0
         newState = ''
@@ -154,14 +153,9 @@ class Puzzle(object):
     # Note that our evaluation scripts only call the solve method.
     # Any other methods that you write should be used within the solve() method.
 
-def printMatrix(state):
-    withSpace = state.replace('0',' ')
-    for i in range(3):
-        print(withSpace[i*3]+' '+withSpace[i*3+1]+' '+withSpace[i*3+2])
-
-
-def printMatrixAct(state, action):
-    print(action)
+def printMatrix(state, action):
+    if action is not None:
+        print(action)
     withSpace = state.replace('0',' ')
     for i in range(3):
         print(withSpace[i*3]+' '+withSpace[i*3+1]+' '+withSpace[i*3+2])
@@ -198,10 +192,10 @@ if __name__ == "__main__":
     ans = puzzle.solve()
 
     state = puzzle.initStateStr
-    printMatrix(state)
+    printMatrix(state, None)
     for step in ans:
         newState = puzzle.stateTransition(state, step)
-        printMatrixAct(newState, step)
+        printMatrix(newState, step)
         state = newState
 
     with open(sys.argv[2], 'a') as f:
